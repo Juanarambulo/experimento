@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un universo para ti ❤️</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: Georgia, "Times New Roman", serif;
+  color: white;
+  background: #100b20 url("fondo.jpg") center / cover no-repeat fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 5, 20, .22),
+    rgba(15, 5, 25, .48)
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.contenido {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.etiqueta {
+  color: #ffd5eb;
+  font: 11px Arial, sans-serif;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  animation: aparecer 2s both;
+}
+
+h1 {
+  max-width: 850px;
+  font-size: clamp(38px, 8vw, 76px);
+  line-height: 1.15;
+  font-weight: normal;
+  text-shadow: 0 0 25px #e78acb80;
+  animation: aparecer 2s .3s both;
+}
+
+h1 span {
+  color: #ffc1e2;
+  font-style: italic;
+}
+
+.subtitulo {
+  max-width: 460px;
+  margin-top: 25px;
+  color: #f4e8f4;
+  font: 15px/1.9 Arial, sans-serif;
+  animation: aparecer 2s .8s both;
+}
+
+.boton {
+  margin-top: 35px;
+  padding: 15px 28px;
+  border: 1px solid #ffc1e2a8;
+  border-radius: 50px;
+  color: white;
+  background: #f1a1d51c;
+  backdrop-filter: blur(8px);
+  font-size: 14px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .3s;
+  animation: aparecer 2s 1.2s both;
+}
+
+.boton:hover {
+  background: #e889c65c;
+  box-shadow: 0 0 30px #f18acb60;
+  transform: translateY(-3px);
+}
+
+.firma {
+  position: absolute;
+  bottom: 24px;
+  font-size: 13px;
+  color: #ffe2f2;
+  letter-spacing: 2px;
+  opacity: .85;
+}
+
+.flotante {
+  position: fixed;
+  z-index: 10;
+  bottom: -40px;
+  pointer-events: none;
+  animation: subir linear forwards;
+  filter: drop-shadow(0 0 8px #ff8dc8);
+}
+
+@keyframes subir {
+  to {
+    transform: translateY(-115vh) rotate(35deg);
+    opacity: 0;
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* VENTANA EMERGENTE */
+.modal {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: #080411b8;
+  backdrop-filter: blur(9px);
+}
+
+.modal.visible {
+  display: flex;
+  animation: aparecer .5s both;
+}
+
+/* CONTENEDOR DE MENSAJE Y FOTO */
+.detalle-contenedor {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 18px;
+  width: min(900px, 100%);
+  max-height: 85vh;
+}
+
+/* CUADRO DEL MENSAJE */
+.tarjeta {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 38px 26px;
+  border: 1px solid #ffc5e44d;
+  border-radius: 24px;
+  background: linear-gradient(145deg, #30203deF, #140d25f5);
+  box-shadow: 0 0 70px #e781bd20;
+  text-align: center;
+}
+
+.rosa {
+  font-size: 55px;
+  margin-bottom: 20px;
+  animation: balanceo 3s infinite ease-in-out;
+}
+
+@keyframes balanceo {
+  50% {
+    transform: rotate(8deg) scale(1.08);
+  }
+}
+
+.tarjeta h2 {
+  color: #ffc6e5;
+  font-size: 30px;
+  line-height: 1.2;
+  font-weight: normal;
+  margin-bottom: 18px;
+}
+
+.tarjeta p {
+  font: 15px/1.9 Arial, sans-serif;
+  color: #f7eaf5;
+}
+
+.mensaje-final {
+  font-size: 18px !important;
+  line-height: 1.35 !important;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.cerrar {
+  margin-top: 25px;
+  border: none;
+  background: transparent;
+  color: #ffc6e5;
+  cursor: pointer;
+  padding: 10px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif;
+  transition: .3s;
+}
+
+.cerrar:hover {
+  color: white;
+  text-shadow: 0 0 12px #ff9dd5;
+}
+
+/* FOTO AL LADO DEL MENSAJE */
+.foto-detalle {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #ffc5e44d;
+  border-radius: 24px;
+  box-shadow: 0 0 40px #e781bd20;
+  background: #211329;
+}
+
+.foto-detalle img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* BOTÓN DE MÚSICA */
+.controles {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 15;
+}
+
+.audio {
+  background: #ffffff15;
+  color: white;
+  border: 1px solid #ffffff50;
+  border-radius: 30px;
+  padding: 11px 15px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+/* ADAPTACIÓN A CELULARES */
+@media (max-width: 650px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .contenido {
+    padding: 70px 20px 45px;
+  }
+
+  .etiqueta {
+    letter-spacing: 3px;
+    font-size: 10px;
+  }
+
+  h1 {
+    font-size: clamp(34px, 9vw, 52px);
+  }
+
+  .subtitulo {
+    font-size: 14px;
+  }
+
+  .firma {
+    font-size: 11px;
+    bottom: 12px;
+  }
+
+  .controles {
+    top: 12px;
+    right: 12px;
+  }
+
+  .audio {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  .modal {
+    align-items: flex-start;
+    padding: 18px 14px;
+  }
+
+  .detalle-contenedor {
+    flex-direction: column;
+    width: min(440px, 100%);
+    max-height: none;
+    margin: auto;
+    gap: 14px;
+  }
+
+  .tarjeta {
+    flex: none;
+    width: 100%;
+    max-height: none;
+    overflow: visible;
+    padding: 28px 20px;
+  }
+
+  .tarjeta h2 {
+    font-size: 26px;
+  }
+
+  .tarjeta p {
+    font-size: 14px;
+  }
+
+  .mensaje-final {
+    font-size: 17px !important;
+  }
+
+  .rosa {
+    font-size: 45px;
+    margin-bottom: 15px;
+  }
+
+  .foto-detalle {
+    flex: none;
+    width: 100%;
+    height: 280px;
+  }
+
+  .foto-detalle img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cerrar {
+    margin-top: 18px;
+  }
+}
+
+/* PANTALLAS DE COMPUTADORA CON POCA ALTURA */
+@media (max-height: 650px) and (min-width: 651px) {
+  .modal {
+    padding: 14px;
+  }
+
+  .detalle-contenedor {
+    max-height: 92vh;
+  }
+
+  .tarjeta {
+    max-height: 92vh;
+    padding: 22px;
+  }
+
+  .rosa {
+    font-size: 40px;
+    margin-bottom: 10px;
+  }
+
+  .tarjeta h2 {
+    font-size: 25px;
+    margin-bottom: 12px;
+  }
+
+  .tarjeta p {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .mensaje-final {
+    font-size: 16px !important;
+    margin-top: 12px;
+  }
+
+  .cerrar {
+    margin-top: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PORTADA PRINCIPAL -->
+<main class="contenido">
+
+  <div class="etiqueta">Un pequeño secreto para ti</div>
+
+  <h1>
+    Hay personas que hacen<br>
+    más bonito el <span>universo...</span>
+  </h1>
+
+  <p class="subtitulo">
+    Y luego estás tú, que sin darte cuenta
+    puedes convertir un momento sencillo
+    en algo inolvidable.
+  </p>
+
+  <button class="boton" id="abrir">
+    Tengo algo para ti ♡
+  </button>
+
+  <div class="firma">Hecho con cariño ✧</div>
+
+</main>
+
+<!-- VENTANA DEL MENSAJE -->
+<div class="modal" id="modal">
+
+  <div class="detalle-contenedor">
+
+    <!-- CUADRO ROMÁNTICO -->
+    <div class="tarjeta">
+
+      <div class="rosa">🌹</div>
+
+      <h2>
+        Un pequeño detalle solamente para ti
+      </h2>
+
+      <p>
+        Si pudiera regalarte algo en la vida,
+        te regalaría la capacidad de verte
+        a través de mis ojos.
+        <br><br>
+        Así entenderías lo especial que eres
+        y por qué mereces cosas bonitas. ♡
+      </p>
+
+      <h2 class="mensaje-final">
+        Pero recuerda que las cosas más bonitas
+        no terminan cuando cerramos una página. 💗
+      </h2>
+
+      <button class="cerrar" id="cerrar">
+        Por ahora, te mando un abrazo infinito 🫶
+      </button>
+
+    </div>
+
+    <!-- FOTOGRAFÍA AL LADO
+         Para usar una foto diferente, cambia fondo.jpg por foto.jpg -->
+    <div class="foto-detalle">
+      <img src="fondo.jpg" alt="Un recuerdo especial">
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const modal = document.getElementById("modal");
+const musica = document.getElementById("musica");
+const audioBtn = document.getElementById("audioBtn");
+
+const abrirBtn = document.getElementById("abrir");
+const cerrarBtn = document.getElementById("cerrar");
+
+/* ABRIR VENTANA */
+abrirBtn.addEventListener("click", () => {
+  modal.classList.add("visible");
+  lluviaDeCorazones(35);
+});
+
+/* CERRAR VENTANA */
+cerrarBtn.addEventListener("click", () => {
+  modal.classList.remove("visible");
+});
+
+/* CERRAR AL PULSAR FUERA */
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.remove("visible");
+  }
+});
+
+/* CERRAR CON ESCAPE */
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    modal.classList.remove("visible");
+  }
+});
+
+/* ACTIVAR O PAUSAR MÚSICA */
+audioBtn.addEventListener("click", async () => {
+  if (musica.paused) {
+    try {
+      await musica.play();
+      audioBtn.textContent = "♫ Pausar música";
+    } catch (error) {
+      audioBtn.textContent = "No se pudo reproducir";
+    }
+  } else {
+    musica.pause();
+    audioBtn.textContent = "♫ Activar música";
+  }
+});
+
+/* CREAR CORAZONES Y DESTELLOS */
+function crearParticula() {
+  const elemento = document.createElement("div");
+  elemento.className = "flotante";
+
+  const simbolos = ["♡", "♥", "✧", "✦", "✨"];
+
+  elemento.textContent =
+    simbolos[Math.floor(Math.random() * simbolos.length)];
+
+  elemento.style.left = Math.random() * 100 + "vw";
+  elemento.style.fontSize =
+    (12 + Math.random() * 18) + "px";
+
+  elemento.style.opacity =
+    0.35 + Math.random() * 0.6;
+
+  const duracion = 7 + Math.random() * 8;
+  elemento.style.animationDuration = duracion + "s";
+
+  document.body.appendChild(elemento);
+
+  setTimeout(() => {
+    elemento.remove();
+  }, duracion * 1000);
+}
+
+/* PARTÍCULAS CONTINUAS */
+setInterval(crearParticula, 550);
+
+/* LLUVIA DE CORAZONES AL ABRIR EL MENSAJE */
+function lluviaDeCorazones(cantidad) {
+  for (let i = 0; i < cantidad; i++) {
+    setTimeout(() => {
+      crearParticula();
+    }, i * 65);
+  }
+}
+</script>
+
+</body>
+</html>
